@@ -67,7 +67,7 @@ function generateMarkdown(data) {
 
   You can also find my GitHub account located at: [${data.github}](https://github.com/${data.github})
 `;
-return text
+  return text
 }
 
 module.exports = {
