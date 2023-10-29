@@ -8,7 +8,9 @@ const questions = ["What is your projects name?",
     "What are the steps to install your project?",
     "How should this project be used?",
     "List contributors, and sources of code for your project:",
-    "Please state how your user can test this project."];
+    "Please state how your user can test this project.",
+    "Please enter your GitHub username:",
+    "Please enter your email address:"];
 // License options
 const licenses = [
     'Apache license 2.0',
@@ -30,11 +32,11 @@ const licenses = [
 
 // TODO: Create a function to write README file
 function writeToFile(data) {
-    console.log(data)
-    if (data.license) {
-        markDown.renderLicenseLink(data.license)
-        console.log("true")
-    }
+    markDown.renderLicenseData(data)
+    const text = markDown.generateMarkdown(data)
+    fs.writeFile('README.md', text, (err) =>
+        err ? console.error(err) : console.log("File created")
+    );
 }
 
 // TODO: Create a function to initialize app
@@ -71,6 +73,16 @@ function init() {
             name: 'testing',
         },
         {
+            type: 'input',
+            message: questions[6],
+            name: 'github',
+        },
+        {
+            type: 'input',
+            message: questions[7],
+            name: 'email',
+        },
+        {
             type: 'confirm',
             message: 'Does your project use a license?',
             name: 'license'
@@ -84,7 +96,7 @@ function init() {
                     name: 'licenseType',
                     choices: [...licenses]
                 }
-            ]).then(function(response){
+            ]).then(function (response) {
                 data.license = response.licenseType
                 writeToFile(data)
             })
