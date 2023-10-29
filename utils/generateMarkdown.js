@@ -19,38 +19,58 @@ const license13 = new License('MIT License', 'https://opensource.org/licenses/MI
 const license14 = new License('Mozilla Public License 2.0', 'https://opensource.org/licenses/MPL-2.0', 'https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg')
 const license15 = new License('zLib License', 'https://opensource.org/licenses/Zlib', 'https://img.shields.io/badge/License-Zlib-lightgrey.svg')
 const options = [license1, license2, license3, license4, license5, license6, license7, license8, license9, license10, license11, license12, license13, license14, license15]
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-function renderLicenseBadge(data) {
 
-}
-
-// TODO: Create a function that returns the license link
+// TODO: Create a function that returns the license data
 // If there is no license, return an empty string
-function renderLicenseLink(data) {
+function renderLicenseData(data) {
+  data.licenseLink = ''
+  data.licenseBadge = ''
+  data.licenseSection = ''
+  data.licenseAnchor = ''
   for (const option of options) {
-    if (option.name === data) {
-      console.log(option)
+    if (option.name === data.license) {
+      data.licenseLink = option.link
+      data.licenseBadge = `![alt text](${option.badge})`
+      data.licenseSection = `# License
+This project is covered under the ${data.license} the link for the license can be found below
+`
+      data.licenseAnchor = '- [License](#license)'
     }
   }
 }
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(data) {
-
-}
-
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
-  return `# ${data.title}
+  const text = `# ${data.title} ${data.licenseBadge}
+  # Description
+  ${data.description}
+  # Table of Contents
+  - [Description](#description)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  ${data.licenseAnchor}
+  - [Credits](#contributing)
+  - [Tests](#tests)
+  - [Questions](#questions)
+  # Installation
+  ${data.install}
+  # Usage
+  ${data.usage}
+  ${data.licenseSection}
+  ${data.licenseLink}
+  # Contributing
+  ${data.contributors}
+  # Tests
+  ${data.testing}
+  # Questions
+  For any questions pertaining to this project or others email me: [${data.email}](https://${data.email})
 
+  You can also find my GitHub account located at: [${data.github}](https://github.com/${data.github})
 `;
+return text
 }
 
 module.exports = {
   generateMarkdown,
-  renderLicenseBadge,
-  renderLicenseLink,
-  renderLicenseSection
+  renderLicenseData,
 };
